@@ -2,7 +2,7 @@ import Button from "../components/Button";
 
 export default function HomeHero() {
     return (
-        <div className="px-50 py-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-4 lg:gap-10">
+        <div className="px-6 lg:px-50 py-20 grid grid-cols-1 lg:grid-cols-2 items-center gap-4 lg:gap-10">
             <div className="text-white">
                 <h1 className="text-4xl font-semibold mb-4">Learn Smarter with your Personal AI Tutor</h1>
                 <div className="mb-2 flex justify-start items-start">
