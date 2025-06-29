@@ -5,8 +5,8 @@ import { GoGoal } from "react-icons/go";
 export default function KeyFeatures() {
     return (
         <div className="px-6 lg:px-50 py-10 text-white">
-            <h3 className="text-3xl font-semibold mb-2">Key Features</h3>
-            <span className="bg-[#398378] rounded-full py-[3px] px-4 text-sm">Why Students Love It</span>
+            <h3 className="text-3xl font-semibold mb-2 text-center lg:text-left">Key Features</h3>
+            <span className="bg-[#398378] rounded-full py-[3px] px-4 text-sm text-center lg:text-left">Why Students Love It</span>
 
             <div className="mt-14 grid grid-cols-1 lg:grid-cols-5 gap-5">
 
