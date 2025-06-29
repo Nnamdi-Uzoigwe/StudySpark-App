@@ -9,11 +9,11 @@ export default function Subscribe() {
                     Join our mailing list to get early access, study tips, and free resources. Be the first to know when new features or learning tools drop!
                 </p>
 
-                <form className="flex flex-col lg:flex-row items-center gap-2">
+                <form className="flex items-center gap-2">
                     <input 
                         type="text"
                         placeholder="Enter your email here..."
-                        className="bg-white min-w-[300px] p-[5px] text-lg rounded-lg"    
+                        className="bg-white min-w-[250px] lg:min-w-[300px] p-[5px] text-lg rounded-lg"    
                     />
                     <Button>Subscribe</Button>
                 </form>

@@ -7,7 +7,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-4 flex flex-col lg:flex-row justify-center lg:justify-between items-center">
-                    <div className="flex flex-col lg:flex-row text-white gap-4 mb-4 lg:mb-0">
+                    <div className="flex flex-col items-center lg:flex-row text-white gap-4 mb-4 lg:mb-0">
                         <p>Home</p>
                         <p>Features</p>
                         <p>FAQs</p>
