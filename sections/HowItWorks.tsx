@@ -34,7 +34,7 @@ export default function HowItWorks() {
                 </div>
 
                 <div className="bg-[#393e3e] rounded-lg p-4">
-                    <div className="flex lg:flex-row justify-center lg:justify-start items-center gap-3 mb-2">
+                    <div className="flex justify-center lg:justify-start items-center gap-3 mb-2">
                         <div className="bg-[#398378] text-white flex justify-center items-center  h-10 w-10 rounded-md mb-2">
                             <BookOpenText />
                         </div>
