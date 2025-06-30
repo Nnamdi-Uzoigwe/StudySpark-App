@@ -1,4 +1,5 @@
 import Button from "./Button";
+import Link from "next/link";
 
 export default function Navbar() {
     return (
@@ -9,10 +10,10 @@ export default function Navbar() {
             </div>
 
             <div className="flex gap-6 text-white">
-                <p>Home</p>
+                <Link href="/">Home</Link>
                 <p>Features</p>
                 <p>FAQs</p>
-                <p>Login</p>
+                <Link href="/login">Login</Link>
             </div>
 
             <div className="flex justify-center lg:justify-start mt-3 lg:mt-0">
