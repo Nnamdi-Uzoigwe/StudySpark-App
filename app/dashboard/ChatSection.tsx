@@ -679,6 +679,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, BookOpen, Video, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
+import { Book, Videos, Article, YouTubeAPIItem, WikipediaAPIPage, WikipediaArticle } from '@/types/resources'
 
 interface Message {
   id: string
@@ -686,9 +687,9 @@ interface Message {
   sender: 'user' | 'ai'
   timestamp: Date
   resources?: {
-    books?: any[]
-    videos?: any[]
-    articles?: any[]
+    books?: Book[]
+    videos?: Videos[]
+    articles?: Article[]
   }
 }
 
@@ -726,12 +727,12 @@ export default function ChatSection() {
       if (!response.ok) return []
       
       const data = await response.json()
-      return data.items?.map((item: any) => ({
-        title: item.snippet.title,
-        url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        thumbnail: item.snippet.thumbnails.default.url,
-        channel: item.snippet.channelTitle
-      })) || []
+       return (data.items as YouTubeAPIItem[])?.map((item): Videos => ({
+      title: item.snippet.title,
+      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+      thumbnail: item.snippet.thumbnails.default.url,
+      channel: item.snippet.channelTitle
+    })) || [];
     } catch (error) {
       console.error('YouTube API error:', error)
       return []
@@ -762,65 +763,34 @@ export default function ChatSection() {
   }
 
   // Wikipedia API for articles
-  const searchWikipedia = async (query: string) => {
+    const searchWikipedia = async (query: string): Promise<WikipediaArticle[]> => {
     try {
       const response = await fetch(
         `https://en.wikipedia.org/api/rest_v1/page/search?q=${encodeURIComponent(query)}&limit=3`
-      )
-      
-      if (!response.ok) return []
-      
-      const data = await response.json()
-      return data.pages?.map((page: any) => ({
+      );
+
+      if (!response.ok) return [];
+
+      const data = await response.json();
+
+      return (data.pages as WikipediaAPIPage[])?.map((page): WikipediaArticle => ({
         title: page.title,
         description: page.description,
         url: `https://en.wikipedia.org/wiki/${encodeURIComponent(page.key)}`,
         thumbnail: page.thumbnail?.source
-      })) || []
+      })) || [];
+
     } catch (error) {
-      console.error('Wikipedia API error:', error)
-      return []
+      console.error('Wikipedia API error:', error);
+      return [];
     }
-  }
+};
 
   // Function to call Groq API
   const callGroqAPI = async (userMessage: string): Promise<string> => {
     try {
-//       const API_KEY = process.env.NEXT_PUBLIC_GROQ_API_KEY
-      
-//       if (!API_KEY) {
-//         throw new Error('Groq API key not found')
-//       }
 
-//       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-//         method: 'POST',
-//         headers: {
-//           'Authorization': `Bearer ${API_KEY}`,
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           model: 'llama3-8b-8192',
-//           messages: [
-//             {
-//               role: 'system',
-//               content: `You are StudySpark AI, a friendly university learning assistant. You help students learn by:
-// - Providing clear explanations of concepts
-// - Recommending study strategies
-// - Answering academic questions
-// - Being encouraging and supportive
-
-// Keep responses conversational and helpful. When you mention topics, I'll automatically search for relevant books, videos, and articles to show the student.`
-//             },
-//             {
-//               role: 'user',
-//               content: userMessage
-//             }
-//           ],
-//           temperature: 0.7,
-//           max_tokens: 500
-//         })
-//       })
- const response = await fetch('api/groq', { // Call your own API route
+ const response = await fetch('api/groq', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -955,7 +925,7 @@ export default function ChatSection() {
           <Bot className="w-5 h-5" />
           StudySpark AI Assistant
         </h2>
-        <p className="text-sm opacity-90">Ask me anything - I'll find real books, videos, and articles for you!</p>
+        <p className="text-sm opacity-90">Ask me anything - I&apos;ll find real books, videos, and articles for you!</p>
       </div>
 
       {/* Messages Container */}
@@ -1003,7 +973,7 @@ export default function ChatSection() {
                       Recommended Books
                     </h4>
                     <div className="space-y-2">
-                      {message.resources.books.map((book: any, index: number) => (
+                      {message.resources.books.map((book: Book, index: number) => (
                         <div key={index} className="flex items-start gap-2">
                           {book.thumbnail && (
                             <Image src={book.thumbnail} alt="thumbnail" className="w-12 h-16 object-cover rounded" />
@@ -1048,7 +1018,7 @@ export default function ChatSection() {
                       Video Tutorials
                     </h4>
                     <div className="space-y-2">
-                      {message.resources.videos.map((video: any, index: number) => (
+                      {message.resources.videos.map((video: Videos, index: number) => (
                         <div key={index} className="flex items-start gap-2">
                           {video.thumbnail && (
                             <Image src={video.thumbnail} alt="thumbnail" className="w-16 h-12 object-cover rounded" />
@@ -1078,7 +1048,7 @@ export default function ChatSection() {
                       Articles & References
                     </h4>
                     <div className="space-y-2">
-                      {message.resources.articles.map((article: any, index: number) => (
+                      {message.resources.articles.map((article: Article, index: number) => (
                         <div key={index}>
                           <a 
                             href={article.url} 
@@ -1088,8 +1058,8 @@ export default function ChatSection() {
                           >
                             {article.title}
                           </a>
-                          {article.description && (
-                            <p className="text-xs text-gray-600 mt-1">{article.description}</p>
+                          {article.summary && (
+                            <p className="text-xs text-gray-600 mt-1">{article.summary}</p>
                           )}
                         </div>
                       ))}

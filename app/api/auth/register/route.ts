@@ -63,12 +63,20 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     )
 
-  } catch (error: any) {
-    console.error('Registration error:', error.message, error)
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    )
+  } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Registration error:', error.message, error);
+        return NextResponse.json(
+          { error: error.message || 'Internal server error' },
+          { status: 500 }
+        );
+      } else {
+        console.error('Unknown error during registration:', error);
+        return NextResponse.json(
+          { error: 'Internal server error' },
+          { status: 500 }
+        );
+  }
   } finally {
     // Close MongoDB connection
     if (mongoClient) {
