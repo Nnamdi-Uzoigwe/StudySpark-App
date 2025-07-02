@@ -3,7 +3,6 @@
 import { signIn, getProviders } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import type { LiteralUnion, ClientSafeProvider } from 'next-auth/react'
-import type { BuiltInProviderType } from 'next-auth/providers'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
