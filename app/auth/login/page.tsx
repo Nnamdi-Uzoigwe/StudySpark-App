@@ -2,7 +2,7 @@
 
 import { signIn, getProviders } from 'next-auth/react'
 import { useState, useEffect } from 'react'
-import type { LiteralUnion, ClientSafeProvider } from 'next-auth/react'
+import type { ClientSafeProvider } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
