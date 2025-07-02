@@ -8,10 +8,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 export default function Login() {
-  const [providers, setProviders] = useState<
-    Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null
-  >(null)
-
+  const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
