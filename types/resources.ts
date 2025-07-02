@@ -47,3 +47,15 @@ export interface WikipediaAPIPage {
     source: string;
   };
 }
+
+export interface GoogleBooksAPIItem {
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    imageLinks?: {
+      thumbnail: string;
+    };
+    previewLink: string;
+    infoLink: string;
+  };
+}
