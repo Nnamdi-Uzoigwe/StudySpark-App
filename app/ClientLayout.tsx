@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const hiddenPaths = ['/login', '/register'];
+  const hiddenPaths = ['/auth/login', '/auth/register', '/dashboard', '/dashboard/chat', '/dashboard/recommend'];
   const shouldHideLayout = hiddenPaths.includes(pathname);
 
   return (

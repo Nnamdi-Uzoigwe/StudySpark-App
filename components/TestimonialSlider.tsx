@@ -38,11 +38,11 @@ export default function TestimonialSlider() {
       >
         {testimonials.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-white p-8 h-[200px] flex flex-col justify-evenly rounded-xl shadow-md text-center">
-              <p className="text-lg italic text-gray-700mb-4">
+            <div className="bg-[#545c5c] p-8 h-[200px] flex flex-col justify-evenly rounded-xl shadow-md text-center">
+              <p className="text-lg italic text-gray-200 mb-4">
                 “{item.quote}”
               </p>
-              <h4 className="text-md font-semibold text-gray-500">
+              <h4 className="text-md font-semibold text-gray-300">
                 {item.name}
               </h4>
             </div>

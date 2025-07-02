@@ -2,14 +2,15 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import { MongoClient } from "mongodb"
 import bcrypt from "bcryptjs"
 
-const prisma = new PrismaClient()
+const client = new MongoClient(process.env.MONGODB_URI!)
+const clientPromise = client.connect()
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -37,10 +38,11 @@ const handler = NextAuth({
           return null
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email
-          }
+        const client = await clientPromise
+        const users = client.db().collection("users")
+        
+        const user = await users.findOne({
+          email: credentials.email
         })
 
         if (!user) {
@@ -57,7 +59,7 @@ const handler = NextAuth({
         }
 
         return {
-          id: user.id,
+          id: user._id.toString(),
           email: user.email,
           name: user.name,
           image: user.image,
@@ -84,7 +86,6 @@ const handler = NextAuth({
   },
   pages: {
     signIn: '/auth/signin',
-    // signUp: '/auth/signup',
   },
 })
 

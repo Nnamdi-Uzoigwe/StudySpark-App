@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jost.className} antialiased`}
+        className={`${jost.className} bg-[#202222] antialiased`}
       >
       <ClientLayout>
         {children}

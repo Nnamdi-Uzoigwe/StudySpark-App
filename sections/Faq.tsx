@@ -2,7 +2,7 @@ import FaqAccordion from "@/components/FaqAccordion";
 
 export default function Faq() {
     return (
-        <div className="mt-10 px-6 lg:px-50">
+        <div id="faq" className="mt-10 px-6 lg:px-50">
             <div className="flex flex-col justify-center items-center">
 
             <h2 className="text-3xl text-gray-400 font-semibold text-center mb-2">Frequently Asked Questions</h2>

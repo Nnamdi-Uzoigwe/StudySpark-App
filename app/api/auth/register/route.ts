@@ -1,10 +1,13 @@
+
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { MongoClient } from 'mongodb'
 import bcrypt from 'bcryptjs'
 
-const prisma = new PrismaClient()
+const client = new MongoClient(process.env.MONGODB_URI!)
 
 export async function POST(request: NextRequest) {
+  let mongoClient: MongoClient | null = null
+  
   try {
     const { name, email, password } = await request.json()
 
@@ -23,10 +26,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Connect to MongoDB
+    mongoClient = await client.connect()
+    const db = mongoClient.db()
+    const users = db.collection('users')
+
     // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    })
+    const existingUser = await users.findOne({ email })
 
     if (existingUser) {
       return NextResponse.json(
@@ -39,42 +45,39 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 12)
 
     // Create user
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      }
+    const result = await users.insertOne({
+      name,
+      email,
+      password: hashedPassword,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })
 
-    // Create default user preferences
-    await prisma.userPreference.create({
-      data: {
-        userId: user.id,
-        preferredTopics: [],
-        learningPace: 'medium',
-        difficultyLevel: 'beginner',
-        notificationsEnabled: true,
-      }
-    })
+    // Get the created user
+    const newUser = await users.findOne({ _id: result.insertedId })
 
     return NextResponse.json(
       { 
         message: 'User created successfully',
         user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
+          id: newUser?._id.toString(),
+          name: newUser?.name,
+          email: newUser?.email,
         }
       },
       { status: 201 }
     )
 
-  } catch (error) {
-    console.error('Registration error:', error)
+  } catch (error: any) {
+    console.error('Registration error:', error.message, error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error.message || 'Internal server error' },
       { status: 500 }
     )
+  } finally {
+    // Close MongoDB connection
+    if (mongoClient) {
+      await mongoClient.close()
+    }
   }
 }

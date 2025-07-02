@@ -3,3 +3,8 @@
 /* globals.css */
 @import 'swiper/css';
 @import 'swiper/css/pagination';
+
+
+* {
+    scroll-behavior: smooth;
+}

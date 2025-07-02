@@ -11,9 +11,9 @@ export default function Navbar() {
 
             <div className="flex gap-6 text-white">
                 <Link href="/">Home</Link>
-                <p>Features</p>
-                <p>FAQs</p>
-                <Link href="/login">Login</Link>
+                <Link href="#features">Features</Link>
+                <Link href="#faq">FAQs</Link>
+                <Link href="/auth/login">Login</Link>
             </div>
 
             <div className="flex justify-center lg:justify-start mt-3 lg:mt-0">
