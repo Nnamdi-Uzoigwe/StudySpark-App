@@ -6,7 +6,7 @@ export default function Sidebar() {
     return (
         <div className="bg-[#181A1A] fixed h-screen top-0 left-0 w-[300px] text-gray-100 flex flex-col  items-center">
             <div className="flex items-center mt-0 mb-10">
-                <Image src="/logo.png" alt="logo" />
+                <Image src="/logo.png" alt="logo" width={70} height={70} />
                 <span className="text-white text-xl">StudySpark</span>
             </div>
 

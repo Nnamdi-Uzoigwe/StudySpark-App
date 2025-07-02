@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <div className="bg-[#0c1010] py-10 px-6 lg:px-50">
              <div className="flex justify-center lg:justify-start items-center">
-                <Image src="/logo.png" alt="logo" />
+                <Image src="/logo.png" alt="logo"  width={70} height={70} />
                 <span className="text-white text-xl">StudySpark</span>
             </div>
 

@@ -35,10 +35,12 @@ export default function Register() {
 
 
   return (
-    <div className='h-screen grid grid-cols-2'>
-        <Image src="/chatbot.png" alt="chatbot" />
+    <div className='h-screen grid grid-cols-1 lg:grid-cols-2'>
+      <div className='hidden lg:block'>
+        <Image src="/chatbot.png" alt="chatbot" width={700} height={700} />
+      </div>
 
-        <div className="px-30 py-15 bg-white">
+        <div className="px-6 lg:px-30 py-15 bg-white">
           <h1 className="text-2xl font-bold mb-2 text-center text-[#398378]">Register</h1>
           <p className='mb-6 text-gray-500 text-center'>Create a new account here</p>
 

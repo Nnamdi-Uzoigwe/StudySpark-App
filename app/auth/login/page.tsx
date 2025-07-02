@@ -65,10 +65,13 @@ export default function Login() {
   }
 
   return (
-    <div className='h-screen grid grid-cols-2'>
-      <Image src="/chatbot.png" alt="chatbot" />
+    <div className='h-screen grid grid-cols-1 lg:grid-cols-2'>
+      <div className='hidden lg:block'>
+        <Image src="/chatbot.png" alt="chatbot" width={700} height={700} />
+      </div>
 
-        <div className="px-30 py-15 bg-white">
+
+        <div className="px-6 lg:px-30 py-15 bg-white">
 
           <h1 className="text-2xl font-bold mb-6 text-center text-[#389378]">Login</h1>
 
@@ -86,7 +89,7 @@ export default function Login() {
                   className="w-full p-3 border rounded-lg hover:bg-gray-50 flex items-center justify-center gap-2"
                 >
                   {logo && (
-                    <Image src={logo} alt={`${provider.name} logo`} className="w-5 h-5" />
+                    <Image src={logo} alt={`${provider.name} logo`} height={20} width={20} />
                   )}
                   Continue with {provider.name}
                 </button>
