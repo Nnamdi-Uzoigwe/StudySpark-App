@@ -1,10 +1,5 @@
-// export default function Recommendations() {
-//     return (
-//         <div className="border-2 border-black py-[260px] bg-[#202222] text-white flex justify-center">Recommendations</div>
-//     )
-// }
 
-'use client'
+"use client"
 
 import { useState } from 'react'
 import { ExternalLink, BookOpen, Play, Calculator, Globe, Lightbulb } from 'lucide-react'

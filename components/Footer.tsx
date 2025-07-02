@@ -1,8 +1,10 @@
+import Image from "next/image";
+
 export default function Footer() {
     return (
         <div className="bg-[#0c1010] py-10 px-6 lg:px-50">
              <div className="flex justify-center lg:justify-start items-center">
-                <img src="/logo.png" alt="logo" />
+                <Image src="/logo.png" alt="logo" />
                 <span className="text-white text-xl">StudySpark</span>
             </div>
 

@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
   try {
     const { name, email, password } = await request.json()
 
-    // Validation
     if (!name || !email || !password) {
       return NextResponse.json(
         { error: 'Name, email and password are required' },
@@ -26,12 +25,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Connect to MongoDB
     mongoClient = await client.connect()
     const db = mongoClient.db()
     const users = db.collection('users')
 
-    // Check if user already exists
     const existingUser = await users.findOne({ email })
 
     if (existingUser) {
@@ -41,10 +38,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // Create user
     const result = await users.insertOne({
       name,
       email,

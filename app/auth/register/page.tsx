@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Register() {
   const router = useRouter()
@@ -35,7 +36,7 @@ export default function Register() {
 
   return (
     <div className='h-screen grid grid-cols-2'>
-        <img src="/chatbot.png" alt="" />
+        <Image src="/chatbot.png" alt="chatbot" />
 
         <div className="px-30 py-15 bg-white">
           <h1 className="text-2xl font-bold mb-2 text-center text-[#398378]">Register</h1>

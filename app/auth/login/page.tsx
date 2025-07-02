@@ -6,6 +6,7 @@ import type { LiteralUnion, ClientSafeProvider } from 'next-auth/react'
 import type { BuiltInProviderType } from 'next-auth/providers'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function Login() {
   const [providers, setProviders] = useState<
@@ -69,7 +70,7 @@ export default function Login() {
 
   return (
     <div className='h-screen grid grid-cols-2'>
-      <img src="/chatbot.png" alt="" />
+      <Image src="/chatbot.png" alt="chatbot" />
 
         <div className="px-30 py-15 bg-white">
 
@@ -89,7 +90,7 @@ export default function Login() {
                   className="w-full p-3 border rounded-lg hover:bg-gray-50 flex items-center justify-center gap-2"
                 >
                   {logo && (
-                    <img src={logo} alt={`${provider.name} logo`} className="w-5 h-5" />
+                    <Image src={logo} alt={`${provider.name} logo`} className="w-5 h-5" />
                   )}
                   Continue with {provider.name}
                 </button>
