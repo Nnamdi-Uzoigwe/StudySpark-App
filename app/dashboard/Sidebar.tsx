@@ -1,11 +1,12 @@
 import Button from "@/components/Button";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Sidebar() {
     return (
         <div className="bg-[#181A1A] fixed h-screen top-0 left-0 w-[300px] text-gray-100 flex flex-col  items-center">
             <div className="flex items-center mt-0 mb-10">
-                <img src="/logo.png" alt="logo" />
+                <Image src="/logo.png" alt="logo" />
                 <span className="text-white text-xl">StudySpark</span>
             </div>
 

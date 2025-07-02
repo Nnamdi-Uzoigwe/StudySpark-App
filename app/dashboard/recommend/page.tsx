@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ExternalLink, BookOpen, Play, Calculator, Globe, Lightbulb, ArrowLeft, Filter, Search, Grid, List } from 'lucide-react'
+import { ExternalLink, BookOpen, Play, Calculator, Globe, Lightbulb, ArrowLeft, Search, Grid, List } from 'lucide-react'
 import Link from 'next/link'
 
 interface Resource {
@@ -16,7 +16,7 @@ interface Resource {
   duration: string
 }
 
-export default function recommendations() {
+export default function Recommend() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedSubject, setSelectedSubject] = useState('all')

@@ -678,6 +678,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, BookOpen, Video, ExternalLink } from 'lucide-react'
+import Image from 'next/image'
 
 interface Message {
   id: string
@@ -836,7 +837,7 @@ export default function ChatSection() {
     });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null)
+        // const errorData = await response.json().catch(() => null)
         throw new Error(`API request failed: ${response.status}`)
       }
 
@@ -1005,7 +1006,7 @@ export default function ChatSection() {
                       {message.resources.books.map((book: any, index: number) => (
                         <div key={index} className="flex items-start gap-2">
                           {book.thumbnail && (
-                            <img src={book.thumbnail} alt="" className="w-12 h-16 object-cover rounded" />
+                            <Image src={book.thumbnail} alt="thumbnail" className="w-12 h-16 object-cover rounded" />
                           )}
                           <div className="flex-1">
                             <p className="font-medium text-sm">{book.title}</p>
@@ -1050,7 +1051,7 @@ export default function ChatSection() {
                       {message.resources.videos.map((video: any, index: number) => (
                         <div key={index} className="flex items-start gap-2">
                           {video.thumbnail && (
-                            <img src={video.thumbnail} alt="" className="w-16 h-12 object-cover rounded" />
+                            <Image src={video.thumbnail} alt="thumbnail" className="w-16 h-12 object-cover rounded" />
                           )}
                           <div className="flex-1">
                             <a 

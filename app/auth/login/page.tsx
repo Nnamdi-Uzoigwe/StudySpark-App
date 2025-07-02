@@ -132,7 +132,7 @@ export default function Login() {
               {isLoading ? 'Signing in...' : 'Login'}
             </button>
 
-            <p className='text-center'>Don't have an account? <Link href="/auth/register" className='text-[#398378]'>Register here</Link></p>
+            <p className='text-center'>Don&apos;t have an account? <Link href="/auth/register" className='text-[#398378]'>Register here</Link></p>
           </form>
           
         </div>
