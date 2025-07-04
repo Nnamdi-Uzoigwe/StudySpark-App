@@ -33,32 +33,20 @@ export default function HowItWorks() {
                     </p>
                 </div>
 
-                {/* <div className="bg-[#393e3e] rounded-lg p-4">
-                    <div className="flex items-center justify-center lg:justify-start gap-3 mb-2">
-                        <div className="bg-[#398378] text-white flex justify-center items-center h-10 w-10 rounded-md ">
+                <div className="bg-[#393e3e] rounded-lg p-4">
+                    <div className="flex flex-col items-center lg:items-start">
+                        <div className="flex justify-center lg:justify-start items-center gap-3 flex-wrap text-center mb-2">
+                        <div className="bg-[#398378] text-white flex justify-center items-center h-10 w-10 rounded-md">
                             <BookOpenText />
                         </div>
-                        <h3 className="text-xl font-semibold ">Explore Recommended Courses</h3>
-                    </div>
-                    <p className="text-center lg:text-left">
-                        Discover free, high-quality courses from trusted platforms - tailored 
+                        <h3 className="text-xl font-semibold text-center lg:text-left max-w-[220px] leading-[1.2]">Explore Recommended Courses</h3>
+                        </div>
+                        <p className="text-center lg:text-left">
+                        Discover free, high-quality courses from trusted platforms - tailored
                         to your learning goals.
-                    </p>
-                </div> */}
-                <div className="bg-[#393e3e] rounded-lg p-4">
-  <div className="flex flex-col items-center lg:items-start">
-    <div className="flex justify-center lg:justify-start items-center gap-3 flex-wrap text-center mb-2">
-      <div className="bg-[#398378] text-white flex justify-center items-center h-10 w-10 rounded-md">
-        <BookOpenText />
-      </div>
-      <h3 className="text-xl font-semibold text-left max-w-[220px] leading-[1.2]">Explore Recommended Courses</h3>
-    </div>
-    <p className="text-center lg:text-left">
-      Discover free, high-quality courses from trusted platforms - tailored
-      to your learning goals.
-    </p>
-  </div>
-</div>
+                        </p>
+                    </div>
+                </div>
 
 
             </div>

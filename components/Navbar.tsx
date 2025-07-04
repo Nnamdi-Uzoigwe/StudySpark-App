@@ -43,7 +43,7 @@ export default function Navbar() {
             {isOpen && (
                 <div className="fixed top-[11px] right-3 w-[50%] bg-[#464d4d] p-3 rounded-lg flex justify-between text-white">
                     <div className="flex flex-col gap-2 mt-4">
-                        <div className="flex flex-col gap-2 mt-6">
+                        <div className="flex flex-col gap-2 mt-6 text-lg">
                             <Link href="/" onClick={handleClose}>Home</Link>
                             <Link href="#features" onClick={handleClose}>Features</Link>
                             <Link href="#faq" onClick={handleClose}>FAQs</Link>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../components/Button";
 
 export default function HomeHero() {
@@ -17,7 +18,7 @@ export default function HomeHero() {
                 </div>
 
                 <div className="flex justify-center lg:justify-start">
-                    <Button>Get Started</Button>
+                    <Button><Link href="/auth/login">Get Started</Link></Button>
                 </div>
             </div>
 
