@@ -2,8 +2,8 @@ import { BookOpenText, MessageCircleQuestionMark, Search } from "lucide-react";
 
 export default function HowItWorks() {
     return (
-        <div className="px-6 lg:px-50 py-10 text-white">
-            <h1 className="text-gray-400 text-3xl font-semibold text-center lg:text-left">How It Works in 3 Simple Steps</h1>
+        <div className="px-6 lg:px-50 py-8 lg:py-10 text-white">
+            <h1 className="text-gray-400 text-[25px] lg:text-3xl font-semibold text-center lg:text-left">How It Works in 3 Simple Steps</h1>
 
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4">
 
@@ -33,18 +33,33 @@ export default function HowItWorks() {
                     </p>
                 </div>
 
-                <div className="bg-[#393e3e] rounded-lg p-4">
-                    <div className="flex justify-center lg:justify-start items-center gap-3 mb-2">
-                        <div className="bg-[#398378] text-white flex justify-center items-center  h-10 w-10 rounded-md mb-2">
+                {/* <div className="bg-[#393e3e] rounded-lg p-4">
+                    <div className="flex items-center justify-center lg:justify-start gap-3 mb-2">
+                        <div className="bg-[#398378] text-white flex justify-center items-center h-10 w-10 rounded-md ">
                             <BookOpenText />
                         </div>
-                        <h3 className="text-xl font-semibold">Explore Recommended Courses</h3>
+                        <h3 className="text-xl font-semibold ">Explore Recommended Courses</h3>
                     </div>
                     <p className="text-center lg:text-left">
                         Discover free, high-quality courses from trusted platforms - tailored 
                         to your learning goals.
                     </p>
-                </div>
+                </div> */}
+                <div className="bg-[#393e3e] rounded-lg p-4">
+  <div className="flex flex-col items-center lg:items-start">
+    <div className="flex justify-center lg:justify-start items-center gap-3 flex-wrap text-center mb-2">
+      <div className="bg-[#398378] text-white flex justify-center items-center h-10 w-10 rounded-md">
+        <BookOpenText />
+      </div>
+      <h3 className="text-xl font-semibold text-left max-w-[220px] leading-[1.2]">Explore Recommended Courses</h3>
+    </div>
+    <p className="text-center lg:text-left">
+      Discover free, high-quality courses from trusted platforms - tailored
+      to your learning goals.
+    </p>
+  </div>
+</div>
+
 
             </div>
         </div>
