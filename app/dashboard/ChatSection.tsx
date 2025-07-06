@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Send, Bot, User, BookOpen, Video, ExternalLink, Lightbulb } from 'lucide-react'
+import { Send, Bot, User, BookOpen, Video, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { Book, Videos, Article, YouTubeAPIItem, WikipediaAPIPage, WikipediaArticle, GoogleBooksAPIItem } from '@/types/resources'
 import ReactMarkdown from 'react-markdown';

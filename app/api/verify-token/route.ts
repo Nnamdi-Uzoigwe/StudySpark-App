@@ -1,9 +1,15 @@
-
-
 import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 
-// For App Router (app/api/verify-token/route.ts)
+interface JwtPayload {
+  id?: string
+  userId?: string
+  email: string
+  name: string
+  role?: string
+  // Add any other custom fields your token might include
+}
+
 export async function GET(request: NextRequest) {
   try {
     // Get the Authorization header
@@ -26,14 +32,11 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Verify the JWT token
     const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
     
     try {
-      const decoded = jwt.verify(token, JWT_SECRET) as any
-      
-      // Here you might want to fetch additional user data from your database
-      // For now, returning the decoded token data
+      const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload
+     
       const userData = {
         id: decoded.id || decoded.userId,
         email: decoded.email,
