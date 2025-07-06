@@ -6,6 +6,7 @@ import type { ClientSafeProvider } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 
 export default function Login() {
   const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null);
@@ -36,12 +37,19 @@ export default function Login() {
       if (result?.error) {
         alert('Invalid credentials')
       } else if (result?.ok) {
-        // Redirect to dashboard on successful login
+        toast.success("Login Successful", {
+          position: "top-center",
+          autoClose: 2000
+        })
+
         router.push('/dashboard')
       }
     } catch (error) {
       console.error('Login error:', error)
-      alert('An error occurred during login')
+      toast.error('An error occurred during login', {
+        position: "top-center",
+        autoClose: 2000
+      })
     } finally {
       setIsLoading(false)
     }
@@ -50,9 +58,13 @@ export default function Login() {
   const handleSocialSignIn = async (providerId: string) => {
     try {
       await signIn(providerId, {
-        callbackUrl: '/dashboard' // This will redirect to dashboard after social login
+        callbackUrl: '/dashboard'
       })
     } catch (error) {
+      toast.error("Social login error", {
+        position: "top-center",
+        autoClose: 2000
+      })
       console.error('Social login error:', error)
     }
   }

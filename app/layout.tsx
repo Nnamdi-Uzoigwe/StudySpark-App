@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "../components/ClientLayout";
+import { ToastProvider } from "@/components/ToastProvider";
 
 const jost = Jost({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
       >
       <ClientLayout>
         {children}
+        <ToastProvider />
       </ClientLayout>
       </body>
     </html>

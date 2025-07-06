@@ -3,12 +3,14 @@ import Image from "next/image";
 import Button from "./Button";
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from 'next-auth/react'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    
+    const { data: session } = useSession()
+
       function handleOpen() {
         setIsOpen(true);
       }
@@ -31,7 +33,7 @@ export default function Navbar() {
             </div>
 
             <div className="hidden lg:flex justify-center">
-                <Button>Get Started</Button>
+                <Button><Link href="/dashboard">{session ? "Dashboard" : "Get Started"}</Link></Button>
             </div>
              <div className="block lg:hidden">
                       <HiOutlineMenuAlt3
@@ -49,7 +51,7 @@ export default function Navbar() {
                             <Link href="#faq" onClick={handleClose}>FAQs</Link>
                             <Link href="/auth/login" onClick={handleClose}>Login</Link>
                         </div>
-                        <Button><Link href="/auth/login">Get Started</Link></Button>
+                        <Button><Link href="/dashboard">{session ? 'Dashboard' : 'Get Started'}</Link></Button>
                     </div>
                     <div onClick={handleClose}>
                         <MdClose size={30} />

@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { SessionProvider } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -15,7 +16,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const needsAuth = protectedPaths.some(path => pathname.startsWith(path));
 
   return (
-    <>
+    <SessionProvider>
       {!shouldHideLayout && <Navbar />}
       
       {needsAuth ? (
@@ -27,6 +28,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       )}
       
       {!shouldHideLayout && <Footer />}
-    </>
+    </SessionProvider>
   );
 }

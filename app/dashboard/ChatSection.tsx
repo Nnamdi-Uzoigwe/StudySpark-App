@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Send, Bot, User, BookOpen, Video, ExternalLink } from 'lucide-react'
+import { Send, Bot, User, BookOpen, Video, ExternalLink, Lightbulb } from 'lucide-react'
 import Image from 'next/image'
 import { Book, Videos, Article, YouTubeAPIItem, WikipediaAPIPage, WikipediaArticle, GoogleBooksAPIItem } from '@/types/resources'
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string
@@ -15,13 +16,14 @@ interface Message {
     videos?: Videos[]
     articles?: Article[]
   }
+  shouldRecommend?: boolean
 }
 
 export default function ChatSection() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm StudySpark AI. I can help you with your studies and find real books, videos, and articles for any topic. What would you like to learn about today?",
+      content: "Hello! I'm StudySpark AI. I can help you with your studies and find real books, videos, and articles when you need recommendations. Just ask me to recommend materials for any topic! What would you like to learn about today?",
       sender: 'ai',
       timestamp: new Date()
     }
@@ -65,31 +67,31 @@ export default function ChatSection() {
 
   // Google Books API
   const searchBooks = async (query: string): Promise<Book[]> => {
-  try {
-    const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=3&printType=books`
-    );
+    try {
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=3&printType=books`
+      );
 
-    if (!response.ok) return [];
+      if (!response.ok) return [];
 
-    const data = await response.json();
+      const data = await response.json();
 
-    return (data.items as GoogleBooksAPIItem[])?.map((item): Book => ({
-      title: item.volumeInfo.title,
-      authors: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
-      thumbnail: item.volumeInfo.imageLinks?.thumbnail,
-      previewLink: item.volumeInfo.previewLink,
-      infoLink: item.volumeInfo.infoLink
-    })) || [];
+      return (data.items as GoogleBooksAPIItem[])?.map((item): Book => ({
+        title: item.volumeInfo.title,
+        authors: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
+        thumbnail: item.volumeInfo.imageLinks?.thumbnail,
+        previewLink: item.volumeInfo.previewLink,
+        infoLink: item.volumeInfo.infoLink
+      })) || [];
 
-  } catch (error) {
-    console.error('Books API error:', error);
-    return [];
-  }
-};
+    } catch (error) {
+      console.error('Books API error:', error);
+      return [];
+    }
+  };
 
   // Wikipedia API for articles
-    const searchWikipedia = async (query: string): Promise<WikipediaArticle[]> => {
+  const searchWikipedia = async (query: string): Promise<WikipediaArticle[]> => {
     try {
       const response = await fetch(
         `https://en.wikipedia.org/api/rest_v1/page/search?q=${encodeURIComponent(query)}&limit=3`
@@ -110,30 +112,28 @@ export default function ChatSection() {
       console.error('Wikipedia API error:', error);
       return [];
     }
-};
+  };
 
   // Function to call Groq API
   const callGroqAPI = async (userMessage: string): Promise<string> => {
     try {
-
- const response = await fetch('api/groq', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama3-8b-8192',
-        messages: [
-          {
-            role: 'user',
-            content: userMessage
-          }
-        ],
-      }),
-    });
+      const response = await fetch('api/groq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'llama3-8b-8192',
+          messages: [
+            {
+              role: 'user',
+              content: userMessage
+            }
+          ],
+        }),
+      });
 
       if (!response.ok) {
-        // const errorData = await response.json().catch(() => null)
         throw new Error(`API request failed: ${response.status}`)
       }
 
@@ -145,32 +145,88 @@ export default function ChatSection() {
     }
   }
 
-  // Extract key topics from user message for search
-  const extractSearchTopics = (message: string): string[] => {
-    // Simple keyword extraction - you can make this more sophisticated
-    const educationalKeywords = [
-      'learn', 'study', 'understand', 'explain', 'course', 'tutorial', 
-      'book', 'video', 'guide', 'how to', 'what is', 'introduction to'
+  // Enhanced recommendation detection
+  const shouldRecommendResources = (message: string): boolean => {
+    const lowercaseMessage = message.toLowerCase()
+    
+    // Explicit recommendation requests
+    const recommendationTriggers = [
+      'recommend', 'suggest', 'find me', 'show me', 'i need',
+      'looking for', 'help me find', 'what books', 'what videos',
+      'good resources', 'study materials', 'learning materials',
+      'where can i', 'best books', 'best videos', 'best courses',
+      'resources for', 'materials for', 'content for',
+      'give me some', 'can you find', 'any suggestions',
+      'point me to', 'direct me to'
     ]
     
-    const words = message.toLowerCase().split(/\s+/)
-    const topics = []
+    // Question patterns that typically want recommendations
+    const questionPatterns = [
+      'what should i read',
+      'what should i watch',
+      'what should i study',
+      'how can i learn',
+      'where do i start',
+      'what are good',
+      'what are the best'
+    ]
     
-    // Look for educational phrases
-    if (words.some(word => educationalKeywords.includes(word))) {
-      // Extract the main topic (simplified approach)
-      const topicWords = words.filter(word => 
-        word.length > 3 && 
-        !educationalKeywords.includes(word) &&
-        !['the', 'and', 'for', 'with', 'about', 'from'].includes(word)
-      )
-      
-      if (topicWords.length > 0) {
-        topics.push(topicWords.slice(0, 3).join(' '))
+    return recommendationTriggers.some(trigger => 
+      lowercaseMessage.includes(trigger)
+    ) || questionPatterns.some(pattern => 
+      lowercaseMessage.includes(pattern)
+    )
+  }
+
+  // Extract topic from recommendation request
+  const extractTopicFromRequest = (message: string): string | null => {
+    const lowercaseMessage = message.toLowerCase()
+    
+    // Common patterns to extract topics
+    const patterns = [
+      /recommend.*?(?:about|on|for|regarding)\s+(.*?)(?:\?|$|\.)/i,
+      /suggest.*?(?:about|on|for|regarding)\s+(.*?)(?:\?|$|\.)/i,
+      /find.*?(?:about|on|for|regarding)\s+(.*?)(?:\?|$|\.)/i,
+      /(?:books|videos|materials|resources|courses).*?(?:about|on|for|regarding)\s+(.*?)(?:\?|$|\.)/i,
+      /(?:learn|study|understand)\s+(.*?)(?:\?|$|\.)/i,
+      /(?:i need|looking for|help with)\s+(.*?)(?:\?|$|\.)/i,
+    ]
+    
+    for (const pattern of patterns) {
+      const match = message.match(pattern)
+      if (match && match[1]) {
+        return match[1].trim()
       }
     }
     
-    return topics
+    // Fallback: look for key subject words
+    const subjects = [
+      'math', 'mathematics', 'calculus', 'algebra', 'geometry',
+      'physics', 'chemistry', 'biology', 'science',
+      'history', 'literature', 'english', 'writing',
+      'programming', 'coding', 'javascript', 'python', 'web development',
+      'business', 'economics', 'marketing', 'finance',
+      'psychology', 'philosophy', 'sociology',
+      'art', 'music', 'design', 'photography'
+    ]
+    
+    const foundSubjects = subjects.filter(subject => 
+      lowercaseMessage.includes(subject)
+    )
+    
+    return foundSubjects.length > 0 ? foundSubjects[0] : null
+  }
+
+  // Generate suggestion prompt for users
+  const generateSuggestionPrompt = (userMessage: string): string => {
+    const hasQuestionMark = userMessage.includes('?')
+    const isGeneralTopic = !shouldRecommendResources(userMessage)
+    
+    if (isGeneralTopic && hasQuestionMark) {
+      return "\n\n💡 *Tip: If you'd like me to recommend specific books, videos, or articles about this topic, just ask me to \"recommend materials for [topic]\" or \"suggest resources for [topic]\"!*"
+    }
+    
+    return ""
   }
 
   const sendMessage = async () => {
@@ -189,36 +245,43 @@ export default function ChatSection() {
     setIsTyping(true)
 
     try {
+      // Check if user wants recommendations
+      const needsRecommendations = shouldRecommendResources(currentMessage)
+      
       // Get AI response
       const aiResponse = await callGroqAPI(currentMessage)
       
-      // Extract topics for search
-      const searchTopics = extractSearchTopics(currentMessage)
+      // Add suggestion prompt if not asking for recommendations
+      const responseWithSuggestion = aiResponse + generateSuggestionPrompt(currentMessage)
+      
       let resources = {}
       
-      // If we found topics, search for resources
-      if (searchTopics.length > 0) {
-        const mainTopic = searchTopics[0]
+      // Only search for resources if user explicitly requested recommendations
+      if (needsRecommendations) {
+        const topic = extractTopicFromRequest(currentMessage)
         
-        const [books, videos, articles] = await Promise.all([
-          searchBooks(mainTopic),
-          searchYouTube(mainTopic),
-          searchWikipedia(mainTopic)
-        ])
-        
-        resources = {
-          books: books.length > 0 ? books : undefined,
-          videos: videos.length > 0 ? videos : undefined,
-          articles: articles.length > 0 ? articles : undefined
+        if (topic) {
+          const [books, videos, articles] = await Promise.all([
+            searchBooks(topic),
+            searchYouTube(topic),
+            searchWikipedia(topic)
+          ])
+          
+          resources = {
+            books: books.length > 0 ? books : undefined,
+            videos: videos.length > 0 ? videos : undefined,
+            articles: articles.length > 0 ? articles : undefined
+          }
         }
       }
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: aiResponse,
+        content: responseWithSuggestion,
         sender: 'ai',
         timestamp: new Date(),
-        resources: Object.keys(resources).length > 0 ? resources : undefined
+        resources: Object.keys(resources).length > 0 ? resources : undefined,
+        shouldRecommend: needsRecommendations
       }
       
       setMessages(prev => [...prev, aiMessage])
@@ -246,12 +309,12 @@ export default function ChatSection() {
   return (
     <div className="bg-gray-50 h-[600px] flex flex-col border border-gray-300">
       {/* Chat Header */}
-      <div className="bg-[#398378] text-white p-4">
+      <div className="bg-[#202222] text-white p-4">
         <h2 className="text-lg font-semibold flex items-center gap-2">
           <Bot className="w-5 h-5" />
           StudySpark AI Assistant
         </h2>
-        <p className="text-sm opacity-90">Ask me anything - I&apos;ll find real books, videos, and articles for you!</p>
+        <p className="text-sm opacity-90">Ask me questions or request recommendations for books, videos, and articles!</p>
       </div>
 
       {/* Messages Container */}
@@ -271,7 +334,7 @@ export default function ChatSection() {
                     <Bot className="w-4 h-4 mt-1 text-[#398378] flex-shrink-0" />
                   )}
                   <div className="flex-1">
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
                     <span className={`text-xs mt-1 block ${
                       message.sender === 'user' ? 'text-green-100' : 'text-gray-500'
                     }`}>
@@ -302,7 +365,7 @@ export default function ChatSection() {
                       {message.resources.books.map((book: Book, index: number) => (
                         <div key={index} className="flex items-start gap-2">
                           {book.thumbnail && (
-                            <Image src={book.thumbnail} alt="thumbnail" className="w-12 h-16 object-cover rounded" />
+                            <Image src={book.thumbnail} alt="thumbnail" width={48} height={48} />
                           )}
                           <div className="flex-1">
                             <p className="font-medium text-sm">{book.title}</p>
@@ -347,7 +410,7 @@ export default function ChatSection() {
                       {message.resources.videos.map((video: Videos, index: number) => (
                         <div key={index} className="flex items-start gap-2">
                           {video.thumbnail && (
-                            <Image src={video.thumbnail} alt="thumbnail" className="w-16 h-12 object-cover rounded" />
+                            <Image src={video.thumbnail} alt="thumbnail" width={64} height={64} />
                           )}
                           <div className="flex-1">
                             <a 
@@ -424,8 +487,8 @@ export default function ChatSection() {
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask me about any topic - I'll find books, videos, and articles for you!"
-              className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#398378] focus:border-transparent"
+              placeholder="Ask me anything or say 'recommend materials for [topic]' to get resources!"
+              className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#202222] focus:border-transparent"
               rows={1}
               style={{ 
                 minHeight: '44px',

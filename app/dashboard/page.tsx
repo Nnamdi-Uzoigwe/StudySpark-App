@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 export default function Dashboard() {
     return (
         <div className="bg-white h-auto flex w-full">
-            <div className="hidden lg:block">
+            <div>
                 <Sidebar />
             </div>
             

@@ -1,8 +1,9 @@
-// components/ProtectedRoute.tsx
+
 'use client';
 
-import { useEffect, useState, ReactNode } from 'react'
+import { useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -12,17 +13,6 @@ interface ProtectedRouteProps {
   loadingComponent?: ReactNode
 }
 
-interface AuthState {
-  isAuthenticated: boolean
-  isLoading: boolean
-  user?: {
-    id: string
-    email: string
-    name: string
-    role?: string
-  }
-}
-
 const ProtectedRoute = ({
   children,
   fallback,
@@ -30,72 +20,29 @@ const ProtectedRoute = ({
   requiredRole,
   loadingComponent
 }: ProtectedRouteProps) => {
-  const [authState, setAuthState] = useState<AuthState>({
-    isAuthenticated: false,
-    isLoading: true
-  })
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        // Method 1: Check localStorage token
-        const token = localStorage.getItem('auth-token')
-        
-        if (!token) {
-          console.warn('No auth token found');
-        }
+    if (status === 'loading') return 
 
-        // Method 2: Verify token with your backend
-        const response = await fetch('/api/verify-token', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-
-        if (!response.ok) {
-          throw new Error('Token verification failed')
-        }
-
-        const userData = await response.json()
-        
-        // Check role-based access if required
-        if (requiredRole && userData.role !== requiredRole) {
-          router.push('/unauthorized')
-          return
-        }
-
-        setAuthState({
-          isAuthenticated: true,
-          isLoading: false,
-          user: userData
-        })
-
-      } catch (error) {
-        console.error('Authentication check failed:', error)
-        
-        // Clear invalid token
-        localStorage.removeItem('auth-token')
-        
-        // Redirect to login
-        if (fallback) {
-          setAuthState({
-            isAuthenticated: false,
-            isLoading: false
-          })
-        } else {
-          router.push(redirectTo)
-        }
+    if (status === 'unauthenticated') {
+      if (!fallback) {
+        router.push(redirectTo)
       }
+      return
     }
 
-    checkAuth()
-  }, [router, redirectTo, requiredRole, fallback])
+    // Check role-based access if required
+    if (requiredRole && session?.user?.role !== requiredRole) {
+      router.push('/unauthorized')
+      return
+    }
+
+  }, [status, session, router, redirectTo, requiredRole, fallback])
 
   // Show loading state
-  if (authState.isLoading) {
+  if (status === 'loading') {
     if (loadingComponent) {
       return <>{loadingComponent}</>
     }
@@ -108,7 +55,7 @@ const ProtectedRoute = ({
   }
 
   // Show fallback if not authenticated
-  if (!authState.isAuthenticated) {
+  if (status === 'unauthenticated') {
     if (fallback) {
       return <>{fallback}</>
     }
