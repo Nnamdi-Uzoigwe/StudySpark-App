@@ -123,6 +123,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-3 border rounded-lg"
+                placeholder='Your Email...'
                 required
                 disabled={isLoading}
               />
@@ -134,6 +135,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border rounded-lg"
+                placeholder='Your Password...'
                 required
                 disabled={isLoading}
               />
