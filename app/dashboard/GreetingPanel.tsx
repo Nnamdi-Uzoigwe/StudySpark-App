@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 export default function GreetingPanel() {
-  const username = "Nnamdi";
   const [timeOfDay, setTimeOfDay] = useState("");
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const { data: session } = useSession();
