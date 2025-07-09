@@ -31,6 +31,8 @@ export default function ChatSection() {
   const [inputMessage, setInputMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [conversationId, setConversationId] = useState<string | null>(null);
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -229,75 +231,106 @@ export default function ChatSection() {
     return ""
   }
 
-  const sendMessage = async () => {
-    if (!inputMessage.trim()) return
+const sendMessage = async () => {
+  if (!inputMessage.trim()) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: inputMessage,
-      sender: 'user',
+  const userMessage: Message = {
+    id: Date.now().toString(),
+    content: inputMessage,
+    sender: 'user',
+    timestamp: new Date()
+  };
+
+  setMessages(prev => [...prev, userMessage]);
+  const currentMessage = inputMessage;
+  setInputMessage('');
+  setIsTyping(true);
+
+  try {
+    const needsRecommendations = shouldRecommendResources(currentMessage);
+    const aiResponse = await callGroqAPI(currentMessage);
+    const responseWithSuggestion = aiResponse + generateSuggestionPrompt(currentMessage);
+
+    let resources = {};
+
+    if (needsRecommendations) {
+      const topic = extractTopicFromRequest(currentMessage);
+
+      if (topic) {
+        const [books, videos, articles] = await Promise.all([
+          searchBooks(topic),
+          searchYouTube(topic),
+          searchWikipedia(topic)
+        ]);
+
+        resources = {
+          books: books.length > 0 ? books : undefined,
+          videos: videos.length > 0 ? videos : undefined,
+          articles: articles.length > 0 ? articles : undefined
+        };
+      }
+    }
+
+    const aiMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      content: responseWithSuggestion,
+      sender: 'ai',
+      timestamp: new Date(),
+      resources: Object.keys(resources).length > 0 ? resources : undefined,
+      shouldRecommend: needsRecommendations
+    };
+
+    setMessages(prev => [...prev, aiMessage]);
+
+    // 1. Save user message
+    const saveUserRes = await fetch('/api/chat/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: userMessage.content,
+        sender: userMessage.sender
+      })
+    });
+
+    const saveUserData = await saveUserRes.json();
+    const conversationId = saveUserData.conversationId;
+
+    // 2. Save AI response using the same conversationId
+    const saveAIRes = await fetch('/api/chat/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: aiMessage.content,           // ✅ correct message
+        sender: aiMessage.sender,
+        conversationId: conversationId        // ✅ correct ID
+      })
+    });
+
+    const saveAiData = await saveAIRes.json();
+
+    // Optional: store conversationId in state for future threading
+    if (!conversationId && saveAiData.conversationId) {
+      setConversationId(saveAiData.conversationId);
+    }
+
+  } catch (error) {
+    console.error('Error:', error);
+    const errorMessage: Message = {
+      id: (Date.now() + 1).toString(),
+      content: "I apologize, but I'm experiencing some technical difficulties. Please try again later!",
+      sender: 'ai',
       timestamp: new Date()
-    }
-
-    setMessages(prev => [...prev, userMessage])
-    const currentMessage = inputMessage
-    setInputMessage('')
-    setIsTyping(true)
-
-    try {
-      // Check if user wants recommendations
-      const needsRecommendations = shouldRecommendResources(currentMessage)
-      
-      // Get AI response
-      const aiResponse = await callGroqAPI(currentMessage)
-      
-      // Add suggestion prompt if not asking for recommendations
-      const responseWithSuggestion = aiResponse + generateSuggestionPrompt(currentMessage)
-      
-      let resources = {}
-      
-      // Only search for resources if user explicitly requested recommendations
-      if (needsRecommendations) {
-        const topic = extractTopicFromRequest(currentMessage)
-        
-        if (topic) {
-          const [books, videos, articles] = await Promise.all([
-            searchBooks(topic),
-            searchYouTube(topic),
-            searchWikipedia(topic)
-          ])
-          
-          resources = {
-            books: books.length > 0 ? books : undefined,
-            videos: videos.length > 0 ? videos : undefined,
-            articles: articles.length > 0 ? articles : undefined
-          }
-        }
-      }
-      
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: responseWithSuggestion,
-        sender: 'ai',
-        timestamp: new Date(),
-        resources: Object.keys(resources).length > 0 ? resources : undefined,
-        shouldRecommend: needsRecommendations
-      }
-      
-      setMessages(prev => [...prev, aiMessage])
-    } catch (error) {
-      console.error('Error:', error)
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "I apologize, but I'm experiencing some technical difficulties. Please try again later!",
-        sender: 'ai',
-        timestamp: new Date()
-      }
-      setMessages(prev => [...prev, errorMessage])
-    } finally {
-      setIsTyping(false)
-    }
+    };
+    setMessages(prev => [...prev, errorMessage]);
+  } finally {
+    setIsTyping(false);
   }
+};
+
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {

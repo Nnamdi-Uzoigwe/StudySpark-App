@@ -18,7 +18,7 @@ export default function HomeHero() {
                 </div>
 
                 <div className="flex justify-center lg:justify-start">
-                    <Button><Link href="/auth/login">Get Started</Link></Button>
+                    <Button><Link href="/dashboard">Get Started</Link></Button>
                 </div>
             </div>
 
