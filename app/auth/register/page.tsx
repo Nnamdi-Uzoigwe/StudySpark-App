@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -25,11 +26,17 @@ export default function Register() {
     setLoading(false)
 
     if (res.ok) {
-      alert('Registration successful. You can now log in.')
+      toast.success("Registration successful!", {
+        position: "top-center",
+        autoClose: 2000
+      })
       router.push('/auth/login')
     } else {
       const data = await res.json()
-      alert(data.message || 'Something went wrong')
+      toast.error(data.message || 'Something went wrong', {
+        position: "top-center",
+        autoClose: 2000
+      })
     }
   }
 

@@ -35,11 +35,14 @@ export default function Login() {
       })
 
       if (result?.error) {
-        alert('Invalid credentials')
+        toast.error('Invalid credentials', {
+          position: "top-center",
+          autoClose: 2000
+        })
       } else if (result?.ok) {
         toast.success("Login Successful", {
           position: "top-center",
-          autoClose: 2000
+          autoClose: 3000
         })
 
         router.push('/dashboard')
