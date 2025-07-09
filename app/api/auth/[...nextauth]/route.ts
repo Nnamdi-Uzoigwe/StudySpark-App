@@ -173,7 +173,7 @@
 
 // app/api/auth/[...nextauth]/route.ts
 
-import NextAuth from "next-auth"
+import NextAuth, { User } from "next-auth"
 import { JWT } from "next-auth/jwt"
 import { AuthOptions } from "next-auth"
 import { Session } from "next-auth"
@@ -230,7 +230,7 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: any }) {
+    async jwt({ token, user }: { token: JWT; user?: User}) {
       if (user) {
         token.id = user.id
         token.name = user.name

@@ -104,8 +104,15 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi"
 import { MdClose } from "react-icons/md"
 import { useState, useEffect} from "react"
 
+type Chat = {
+  _id: string;
+  userId: string;
+  title: string;
+  createdAt: string; // or Date
+};
+
 function ChatHistorySidebar() {
-  const [chats, setChats] = useState<any[]>([])
+  const [chats, setChats] = useState<Chat[]>([])
 
   useEffect(() => {
     const fetchChats = async () => {

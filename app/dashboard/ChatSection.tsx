@@ -31,7 +31,7 @@ export default function ChatSection() {
   const [inputMessage, setInputMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [_, setConversationId] = useState<string | null>(null);
 
 
   const scrollToBottom = () => {

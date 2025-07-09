@@ -15,7 +15,7 @@ interface ChatSectionProps {
   initialMessages?: Message[];
   conversationId?: string;
 }
-export default function ChatSection({ initialMessages = [], conversationId }: ChatSectionProps) {
+export default function ChatSection({ initialMessages = [] }: ChatSectionProps) {
   const [messages, setMessages] = useState<Message[]>(
     initialMessages.length > 0 ? initialMessages : [
     {
