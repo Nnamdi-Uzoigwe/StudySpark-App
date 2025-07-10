@@ -34,7 +34,7 @@ useEffect(() => {
   fetchMessages();
 }, [id]);
   return (
-    <div className="p-4">
+    <div>
       <ChatSection initialMessages={initialMessages} conversationId={id as string} />
     </div>
   )
