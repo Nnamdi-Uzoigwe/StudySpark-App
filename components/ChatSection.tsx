@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, ArrowLeft, Maximize2, Settings } from 'lucide-react'
 import Link from 'next/link'
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string
@@ -86,11 +87,11 @@ export default function ChatSection({ initialMessages = [] }: ChatSectionProps) 
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link 
-              href="/dashboard"
+              href="/dashboard/history"
               className="flex items-center gap-2 text-gray-600 hover:text-[#398378] transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span className="text-sm font-medium">Back to Dashboard</span>
+              <span className="text-sm font-medium">Back to History</span>
             </Link>
             
             <div className="h-6 w-px bg-gray-300"></div>
@@ -117,7 +118,7 @@ export default function ChatSection({ initialMessages = [] }: ChatSectionProps) 
         <div className="bg-white rounded-lg shadow-sm border h-[calc(100vh-140px)] flex flex-col">
           
           {/* Chat Header */}
-          <div className="bg-[#398378] text-white p-6 rounded-t-lg">
+          <div className="bg-[#202222] text-white p-6 rounded-t-lg">
             <div className="flex items-center gap-3">
               <Bot className="w-6 h-6" />
               <div>
@@ -146,7 +147,7 @@ export default function ChatSection({ initialMessages = [] }: ChatSectionProps) 
                       <Bot className="w-5 h-5 mt-1 text-[#398378] flex-shrink-0" />
                     )}
                     <div className="flex-1">
-                      <p className="leading-relaxed">{message.content}</p>
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
                       <span className={`text-xs mt-2 block ${
                         message.sender === 'user' ? 'text-green-100' : 'text-gray-500'
                       }`}>

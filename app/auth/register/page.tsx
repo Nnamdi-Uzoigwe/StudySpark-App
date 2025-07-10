@@ -30,7 +30,9 @@ export default function Register() {
         position: "top-center",
         autoClose: 2000
       })
-      router.push('/auth/login')
+      setTimeout(() => {
+        router.push('/auth/login')
+      }, 2000)
     } else {
       const data = await res.json()
       toast.error(data.message || 'Something went wrong', {

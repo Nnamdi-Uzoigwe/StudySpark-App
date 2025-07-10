@@ -104,6 +104,47 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi"
 import { MdClose } from "react-icons/md"
 import { useState, useEffect} from "react"
 
+// type Chat = {
+//   _id: string;
+//   userId: string;
+//   title: string;
+//   createdAt: string; // or Date
+// };
+
+// function ChatHistorySidebar() {
+//   const [chats, setChats] = useState<Chat[]>([])
+
+//   useEffect(() => {
+//     const fetchChats = async () => {
+//       const res = await fetch('/api/chat/history')
+//       const data = await res.json()
+//       setChats(data)
+//     }
+
+//     fetchChats()
+//   }, [])
+
+//   if (!chats.length) return null
+
+//   return (
+//     <div className="w-full px-6 mt-8">
+//       <h3 className="text-sm font-semibold text-gray-400 mb-2">Chat History</h3>
+//       <ul className="space-y-2 max-h-[200px] overflow-y-auto text-sm">
+//         {chats.map(chat => (
+//           <li key={chat._id}>
+//             <Link
+//               href={`/dashboard/chat/${chat._id}`}
+//               className="block text-gray-300 hover:text-white truncate"
+//             >
+//               {chat.title || new Date(chat.createdAt).toLocaleString()}
+//             </Link>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   )
+// }
+
 type Chat = {
   _id: string;
   userId: string;
@@ -111,7 +152,11 @@ type Chat = {
   createdAt: string; // or Date
 };
 
-function ChatHistorySidebar() {
+type Props = {
+  limit?: number;
+};
+
+function ChatHistorySidebar({ limit }: Props) {
   const [chats, setChats] = useState<Chat[]>([])
 
   useEffect(() => {
@@ -126,15 +171,17 @@ function ChatHistorySidebar() {
 
   if (!chats.length) return null
 
+  const displayedChats = limit ? chats.slice(0, limit) : chats
+
   return (
-    <div className="w-full px-6 mt-8">
-      <h3 className="text-sm font-semibold text-gray-400 mb-2">Chat History</h3>
+    <div className="w-full px-6 mt-4 flex flex-col justify-center items-center">
+      <h3 className="text-md font-semibold text-gray-400 mb-2">Recent Chats</h3>
       <ul className="space-y-2 max-h-[200px] overflow-y-auto text-sm">
-        {chats.map(chat => (
+        {displayedChats.map(chat => (
           <li key={chat._id}>
             <Link
               href={`/dashboard/chat/${chat._id}`}
-              className="block text-gray-300 hover:text-white truncate"
+              className="block text-gray-300 text-center hover:text-white truncate"
             >
               {chat.title || new Date(chat.createdAt).toLocaleString()}
             </Link>
@@ -144,7 +191,6 @@ function ChatHistorySidebar() {
     </div>
   )
 }
-
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -185,9 +231,9 @@ export default function Sidebar() {
           <Link href="/dashboard/chat">Chat</Link>
           <Link href="/dashboard/history">Chat History</Link>
           <Link href="/dashboard/recommend">Recommendations</Link>
-          <Link href="/profile">Profile</Link>
+          <Link href="/dashboard/profile">Profile</Link>
         
-          <ChatHistorySidebar />
+          <ChatHistorySidebar limit={3} />
         </div>
 
         <div className="mt-auto mb-10">
@@ -216,9 +262,9 @@ export default function Sidebar() {
           <Link href="/dashboard/chat" onClick={handleClose}>Chat</Link>
           <Link href="/dashboard/history">Chat History</Link>
           <Link href="/dashboard/recommend" onClick={handleClose}>Recommendations</Link>
-          <Link href="/profile" onClick={handleClose}>Profile</Link>
+          <Link href="/dashboard/profile" onClick={handleClose}>Profile</Link>
           
-          <ChatHistorySidebar />
+          <ChatHistorySidebar limit={3} />
         </div>
 
 

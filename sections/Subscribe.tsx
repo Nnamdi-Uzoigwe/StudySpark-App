@@ -15,7 +15,7 @@ export default function Subscribe() {
                         placeholder="Enter your email here..."
                         className="bg-white min-w-[250px] lg:min-w-[300px] p-[5px] text-lg rounded-lg"    
                     />
-                    <button className="text-white bg-[#398378] px-6 py-2 rounded-lg w-full lg:w-fit cursor-pointer">Subscribe</button>
+                    <button className="text-white bg-[#398378] hover:bg-[#376059] focus:bg-[#376059] px-6 py-2 rounded-lg w-full lg:w-fit cursor-pointer">Subscribe</button>
                 </form>
             </div>
         </div>
