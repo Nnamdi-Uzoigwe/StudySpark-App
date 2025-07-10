@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Send, Bot, User, ArrowLeft, Maximize2, Settings } from 'lucide-react'
+import { Bot, ArrowLeft, Maximize2, Settings } from 'lucide-react'
 import Link from 'next/link'
 
 interface Conversation {
