@@ -6,6 +6,18 @@ export interface Book {
   infoLink?: string;
 }
 
+interface GoogleBookItem {
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    imageLinks?: {
+      thumbnail?: string;
+    };
+    previewLink?: string;
+    infoLink?: string;
+  };
+}
+
 export const searchBooks = async (query: string): Promise<Book[]> => {
   try {
     const response = await fetch(
@@ -16,7 +28,7 @@ export const searchBooks = async (query: string): Promise<Book[]> => {
 
     const data = await response.json();
 
-    return (data.items || []).map((item: any): Book => ({
+    return (data.items || []).map((item: GoogleBookItem): Book => ({
       title: item.volumeInfo.title,
       authors: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
       thumbnail: item.volumeInfo.imageLinks?.thumbnail,

@@ -5,6 +5,12 @@ export interface WikipediaArticle {
   thumbnail?: string;
 }
 
+
+interface WikipediaSearchResultItem {
+  title: string;
+  snippet: string;
+}
+
 export const searchWikipedia = async (query: string, limit: number = 4): Promise<WikipediaArticle[]> => {
     try {
       const response = await fetch(
@@ -15,7 +21,7 @@ export const searchWikipedia = async (query: string, limit: number = 4): Promise
   
       const data = await response.json();
   
-      return (data.query.search || []).map((item: any): WikipediaArticle => ({
+      return (data.query.search || []).map((item: WikipediaSearchResultItem): WikipediaArticle => ({
         title: item.title,
         description: item.snippet.replace(/<[^>]+>/g, ''),
         url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title)}`

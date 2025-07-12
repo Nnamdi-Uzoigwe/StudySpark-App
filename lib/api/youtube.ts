@@ -5,6 +5,21 @@ export interface Videos {
   channel: string;
 }
 
+interface YouTubeSearchItem {
+  id: {
+    videoId: string;
+  };
+  snippet: {
+    title: string;
+    channelTitle: string;
+    thumbnails: {
+      default: {
+        url: string;
+      };
+    };
+  };
+}
+
 export const searchYouTube = async (query: string): Promise<Videos[]> => {
   try {
     const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
@@ -20,7 +35,7 @@ export const searchYouTube = async (query: string): Promise<Videos[]> => {
 
     const data = await response.json();
 
-    return (data.items || []).map((item: any): Videos => ({
+    return (data.items || []).map((item: YouTubeSearchItem): Videos => ({
       title: item.snippet.title,
       url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
       thumbnail: item.snippet.thumbnails.default.url,

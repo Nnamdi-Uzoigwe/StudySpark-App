@@ -116,19 +116,6 @@ const ProfilePage = () => {
     setError(null);
   };
 
-  // const handleSubjectsChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const subjects = e.target.value
-  //     .split(",")
-  //     .map((subject) => subject.trim())
-  //     .filter((s) => s);
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     preferredSubjects: subjects,
-  //   }));
-  //   setActiveField("preferredSubjects");
-  //   setError(null);
-  // };
-
   const addSubject = (subject: string) => {
     if (subject.trim() && !formData.preferredSubjects.includes(subject.trim())) {
       setFormData((prev) => ({
