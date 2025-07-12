@@ -1,116 +1,3 @@
-// 'use client'
-
-// import { useEffect, useState } from 'react';
-// import { extractKeywords } from '@/lib/utils/topicExtractor';
-// import { searchBooks } from '@/lib/api/books';
-// import { searchYouTube } from '@/lib/api/youtube';
-// import { searchWikipedia } from '@/lib/api/wikipedia';
-
-// interface Message {
-//   content: string;
-//   sender: 'user' | 'ai';
-//   timestamp: string;
-// }
-
-// export default function RecommendPage() {
-//   const [books, setBooks] = useState<any[]>([]);
-//   const [videos, setVideos] = useState<any[]>([]);
-//   const [articles, setArticles] = useState<any[]>([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const fetchRecommendations = async () => {
-//       setLoading(true);
-
-//       const res = await fetch('/api/chat/all-messages');
-//       const messages: Message[] = await res.json();
-
-//       const userTexts = messages
-//         .filter(msg => msg.sender === 'user')
-//         .map(msg => msg.content);
-
-//       const keywords = extractKeywords(userTexts);
-
-//       const topic = keywords[0]; // Pick the most relevant one
-//       if (!topic) {
-//         setLoading(false);
-//         return;
-//       }
-
-//       const [bookResults, videoResults, articleResults] = await Promise.all([
-//         searchBooks(topic),
-//         searchYouTube(topic),
-//         searchWikipedia(topic),
-//       ]);
-
-//       setBooks(bookResults);
-//       setVideos(videoResults);
-//       setArticles(articleResults);
-//       setLoading(false);
-//     };
-
-//     fetchRecommendations();
-//   }, []);
-
-//   return (
-//     <div className="p-6 max-w-5xl mx-auto">
-//       <h1 className="text-2xl font-bold mb-4 text-gray-800">Your StudySpark Recommendations</h1>
-
-//       {loading ? (
-//         <p>Loading recommendations based on your chat history...</p>
-//       ) : (
-//         <>
-//           {books.length > 0 && (
-//             <div className="mb-6">
-//               <h2 className="text-xl font-semibold text-blue-700 mb-2">📚 Books</h2>
-//               <ul className="space-y-2">
-//                 {books.map((book, i) => (
-//                   <li key={i}>
-//                     <p className="font-medium">{book.title}</p>
-//                     <p className="text-sm text-gray-600">{book.authors}</p>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
-//           )}
-
-//           {videos.length > 0 && (
-//             <div className="mb-6">
-//               <h2 className="text-xl font-semibold text-red-700 mb-2">📺 Videos</h2>
-//               <ul className="space-y-2">
-//                 {videos.map((video, i) => (
-//                   <li key={i}>
-//                     <a href={video.url} className="text-red-600 hover:underline" target="_blank">
-//                       {video.title}
-//                     </a>
-//                     <p className="text-sm text-gray-600">{video.channel}</p>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
-//           )}
-
-//           {articles.length > 0 && (
-//             <div className="mb-6">
-//               <h2 className="text-xl font-semibold text-green-700 mb-2">📖 Articles</h2>
-//               <ul className="space-y-2">
-//                 {articles.map((a, i) => (
-//                   <li key={i}>
-//                     <a href={a.url} className="text-green-600 hover:underline" target="_blank">
-//                       {a.title}
-//                     </a>
-//                     <p className="text-sm text-gray-600">{a.summary}</p>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
-//           )}
-//         </>
-//       )}
-//     </div>
-//   );
-// }
-
 'use client'
 
 import { useEffect, useState } from 'react';
@@ -118,6 +5,8 @@ import { extractKeywords } from '@/lib/utils/topicExtractor';
 import { searchBooks } from '@/lib/api/books';
 import { searchYouTube } from '@/lib/api/youtube';
 import { searchWikipedia } from '@/lib/api/wikipedia';
+import { Settings, ArrowLeft, Bot, Maximize2 } from 'lucide-react';
+import Link from 'next/link';
 
 interface Message {
   content: string;
@@ -253,6 +142,40 @@ export default function RecommendPage() {
 
   return (
     <div className="min-h-screen bg-white">
+
+       {/* Top Navigation Bar */}
+      <div className="bg-white border-b shadow-sm p-4">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 text-gray-600 hover:text-[#398378] transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="text-sm font-medium">Back to Dashboard</span>
+            </Link>
+
+            <div className="h-6 w-px bg-gray-300"></div>
+
+            <div className="flex items-center gap-2">
+              <Bot className="w-6 h-6 text-[#398378]" />
+              <h1 className="text-xl font-semibold text-gray-900">
+                StudySpark AI Chat
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+              <Maximize2 className="w-5 h-5" />
+            </button>
+            <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+              <Settings className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-gradient-to-r from-gray-600 via-[#202222] to-[#398378] text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
