@@ -4,6 +4,7 @@ export interface Book {
   thumbnail?: string;
   previewLink?: string;
   infoLink?: string;
+  url: String;
 }
 
 interface GoogleBookItem {
@@ -33,7 +34,8 @@ export const searchBooks = async (query: string): Promise<Book[]> => {
       authors: item.volumeInfo.authors?.join(', ') || 'Unknown Author',
       thumbnail: item.volumeInfo.imageLinks?.thumbnail,
       previewLink: item.volumeInfo.previewLink,
-      infoLink: item.volumeInfo.infoLink
+      infoLink: item.volumeInfo.infoLink,
+      url: item.volumeInfo.infoLink || '', 
     }));
   } catch (error) {
     console.error('Books API error:', error);
