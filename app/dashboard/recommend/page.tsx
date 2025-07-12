@@ -401,7 +401,7 @@ export default function RecommendPage() {
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 hover:border-red-200 group">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <div className="w-16h-12 lg:h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
+          <div className="w-16 h-12 lg:h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
             ▶️
           </div>
         </div>
@@ -524,7 +524,7 @@ export default function RecommendPage() {
                     <div className="w-10 h-10 bg-gradient-to-br from-[#202222] to-[#398378] rounded-xl flex items-center justify-center text-white font-bold text-lg">
                       📚
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-800">Recommended Books</h2>
+                    <h2 className="text-2xl font-bold text-center lg:text-left text-gray-800">Recommended Books</h2>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -543,7 +543,7 @@ export default function RecommendPage() {
                     <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                       📺
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-800">Recommended Videos</h2>
+                    <h2 className="text-2xl font-bold text-center lg:text-left text-gray-800">Recommended Videos</h2>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -562,7 +562,7 @@ export default function RecommendPage() {
                     <div className="w-10 h-10 bg-gradient-to-br from-[#202222] to-[#398378] rounded-xl flex items-center justify-center text-white font-bold text-lg">
                       📖
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-800">Recommended Articles</h2>
+                    <h2 className="text-2xl font-bold text-center lg:text-left text-gray-800">Recommended Articles</h2>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

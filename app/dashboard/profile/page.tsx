@@ -42,36 +42,36 @@ const ProfilePage = () => {
     preferredStudyTime: "",
   };
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (!session?.user?.id) return;
+  const fetchProfile = async () => {
+    if (!session?.user?.id) return;
 
-      setIsFetching(true);
-      try {
-        const response = await fetch(`/api/profile?userId=${session.user.id}`);
-        const result = await response.json();
+    setIsFetching(true);
+    try {
+      const response = await fetch(`/api/profile?userId=${session.user.id}`);
+      const result = await response.json();
 
-        if (response.ok && result.data) {
-          setFormData({
-            fullName: result.data.fullName,
-            email: result.data.email,
-            educationLevel: result.data.educationLevel,
-            school: result.data.school || "",
-            preferredSubjects: result.data.preferredSubjects || [],
-            preferredStudyTime: result.data.preferredStudyTime,
-          });
-        } else if (response.status !== 404) {
-          throw new Error(result.error || "Failed to fetch profile");
-        }
-      } catch (error) {
-        console.error("Profile fetch error:", error);
-        setError(
-          error instanceof Error ? error.message : "Failed to load profile"
-        );
-      } finally {
-        setIsFetching(false);
+      if (response.ok && result.data) {
+        setFormData({
+          fullName: result.data.fullName,
+          email: result.data.email,
+          educationLevel: result.data.educationLevel,
+          school: result.data.school || "",
+          preferredSubjects: result.data.preferredSubjects || [],
+          preferredStudyTime: result.data.preferredStudyTime,
+        });
+      } else if (response.status !== 404) {
+        throw new Error(result.error || "Failed to fetch profile");
       }
-    };
+    } catch (error) {
+      console.error("Profile fetch error:", error);
+      setError(
+        error instanceof Error ? error.message : "Failed to load profile"
+      );
+    } finally {
+      setIsFetching(false);
+    }
+  };
+  useEffect(() => {
 
     fetchProfile();
   }, [session]);
@@ -212,11 +212,12 @@ const ProfilePage = () => {
     }
   };
 
-  const handleCancel = () => {
+  const handleCancel = async() => {
     setFormData(initialProfileData);
     setIsEditing(false);
     setError(null);
     setActiveField(null);
+    await fetchProfile();
   };
 
   const ProfileCard = () => (
@@ -240,7 +241,7 @@ const ProfilePage = () => {
           className="flex items-center gap-2 px-4 py-2 bg-[#398378] hover:bg-[#376059] cursor-pointer text-white rounded-lg transition-colors"
         >
           <Edit3 className="w-4 h-4" />
-          {formData.fullName ? "Edit Profile" : "Create Profile"}
+          {formData.fullName ? "Edit" : "Create Profile"}
         </button>
       </div>
 
