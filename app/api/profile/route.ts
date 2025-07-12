@@ -21,7 +21,7 @@
 //   preferredStudyTime: string;
 // }
 
-// export async function GET(request: NextRequest): Promise<NextResponse<ApiResponse>> {
+// export async function GET(_request: NextRequest): Promise<NextResponse<ApiResponse>> {
 //   await dbConnect();
   
 //   try {
@@ -48,7 +48,7 @@
 //       success: true,
 //       data: profile
 //     });
-//   } catch (error) {
+//   } catch (error: unknown) {
 //     console.error('GET Profile Error:', error);
 //     return NextResponse.json({
 //       success: false,
@@ -70,7 +70,14 @@
 //       }, { status: 401 });
 //     }
 
-//     const { fullName, email, educationLevel, school, preferredSubjects, preferredStudyTime }: ProfileRequestBody = await request.json();
+//     const {
+//       fullName,
+//       email,
+//       educationLevel,
+//       school,
+//       preferredSubjects,
+//       preferredStudyTime
+//     }: ProfileRequestBody = await request.json();
 
 //     if (!fullName || !email || !educationLevel || !preferredSubjects || !preferredStudyTime) {
 //       return NextResponse.json({
@@ -104,17 +111,17 @@
 //       data: savedProfile,
 //       message: 'Profile created successfully'
 //     }, { status: 201 });
-//   } catch (error: any) {
+//   } catch (error: unknown) {
 //     console.error('POST Profile Error:', error);
-    
-//     if (error.name === 'ValidationError') {
+
+//     if (error instanceof Error && error.name === 'ValidationError') {
 //       return NextResponse.json({
 //         success: false,
 //         error: 'Validation error',
 //         details: error.message
 //       }, { status: 400 });
 //     }
-    
+
 //     return NextResponse.json({
 //       success: false,
 //       error: 'Failed to create profile'
@@ -135,7 +142,14 @@
 //       }, { status: 401 });
 //     }
 
-//     const { fullName, email, educationLevel, school, preferredSubjects, preferredStudyTime }: ProfileRequestBody = await request.json();
+//     const {
+//       fullName,
+//       email,
+//       educationLevel,
+//       school,
+//       preferredSubjects,
+//       preferredStudyTime
+//     }: ProfileRequestBody = await request.json();
 
 //     if (!fullName || !email || !educationLevel || !preferredSubjects || !preferredStudyTime) {
 //       return NextResponse.json({
@@ -167,17 +181,17 @@
 //       data: updatedProfile,
 //       message: 'Profile updated successfully'
 //     });
-//   } catch (error: any) {
+//   } catch (error: unknown) {
 //     console.error('PUT Profile Error:', error);
-    
-//     if (error.name === 'ValidationError') {
+
+//     if (error instanceof Error && error.name === 'ValidationError') {
 //       return NextResponse.json({
 //         success: false,
 //         error: 'Validation error',
 //         details: error.message
 //       }, { status: 400 });
 //     }
-    
+
 //     return NextResponse.json({
 //       success: false,
 //       error: 'Failed to update profile'
@@ -185,7 +199,7 @@
 //   }
 // }
 
-// export async function DELETE(request: NextRequest): Promise<NextResponse<ApiResponse>> {
+// export async function DELETE(_request: NextRequest): Promise<NextResponse<ApiResponse>> {
 //   await dbConnect();
   
 //   try {
@@ -211,7 +225,7 @@
 //       success: true,
 //       message: 'Profile deleted successfully'
 //     });
-//   } catch (error) {
+//   } catch (error: unknown) {
 //     console.error('DELETE Profile Error:', error);
 //     return NextResponse.json({
 //       success: false,
@@ -243,7 +257,7 @@ interface ProfileRequestBody {
   preferredStudyTime: string;
 }
 
-export async function GET(_request: NextRequest): Promise<NextResponse<ApiResponse>> {
+export async function GET(): Promise<NextResponse<ApiResponse>> {
   await dbConnect();
   
   try {
@@ -421,7 +435,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ApiRespons
   }
 }
 
-export async function DELETE(_request: NextRequest): Promise<NextResponse<ApiResponse>> {
+export async function DELETE(): Promise<NextResponse<ApiResponse>> {
   await dbConnect();
   
   try {
