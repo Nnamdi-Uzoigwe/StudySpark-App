@@ -374,12 +374,12 @@ export default function RecommendPage() {
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 hover:border-blue-200 group">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <div className="w-16 h-20 bg-gradient-to-br from-[#202222] to-[#398378] rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md">
+          <div className="w-16 h-14 lg:h-20 bg-gradient-to-br from-[#202222] to-[#398378] rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-md">
             📚
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 cursor-pointer transition-colors mb-2 line-clamp-2">
+          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#398378] cursor-pointer transition-colors mb-2 line-clamp-2">
              <a href={book.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
               {book.title}
             </a>
@@ -401,7 +401,7 @@ export default function RecommendPage() {
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 hover:border-red-200 group">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
+          <div className="w-16h-12 lg:h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
             ▶️
           </div>
         </div>
@@ -428,7 +428,7 @@ export default function RecommendPage() {
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 hover:border-green-200 group">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
+          <div className="w-16 h-12 lg:h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-md">
             📄
           </div>
         </div>
@@ -487,8 +487,8 @@ export default function RecommendPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-gray-600 via-[#202222] to-[#398378] text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold mb-4">✨ Your StudySpark Recommendations</h1>
-          <p className="text-xl opacity-90">
+          <h1 className="text-xl text-center lg:text-left lg:text-4xl font-bold mb-4">✨ Your StudySpark Recommendations</h1>
+          <p className="text-xl text-center lg:text-left opacity-90">
             Personalized learning resources based on your chat history
           </p>
         </div>
