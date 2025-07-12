@@ -123,38 +123,26 @@ export default function ChatSection() {
   };
 
   // Wikipedia API for articles
-  const searchWikipedia = async (
-    query: string
-  ): Promise<WikipediaArticle[]> => {
-    try {
-      const response = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/search?q=${encodeURIComponent(
-          query
-        )}&limit=3`
-      );
-
-      if (!response.ok) return [];
-
-      const data = await response.json();
-
-      return (
-        (data.pages as WikipediaAPIPage[])?.map(
-          (page): WikipediaArticle => ({
-            title: page.title,
-            description: page.description,
-            url: `https://en.wikipedia.org/wiki/${encodeURIComponent(
-              page.key
-            )}`,
-            thumbnail: page.thumbnail?.source,
-          })
-        ) || []
-      );
-    } catch (error) {
-      console.error("Wikipedia API error:", error);
-      return [];
-    }
-  };
-
+  const searchWikipedia = async (query: string, limit: number = 4): Promise<WikipediaArticle[]> => {
+      try {
+        const response = await fetch(
+          `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&srlimit=${limit}&utf8=&format=json&origin=*`
+        );
+    
+        if (!response.ok) return [];
+    
+        const data = await response.json();
+    
+        return (data.query.search || []).map((item: any): WikipediaArticle => ({
+          title: item.title,
+          description: item.snippet.replace(/<[^>]+>/g, ''),
+          url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title)}`
+        }));
+      } catch (error) {
+        console.error('Wikipedia API error:', error);
+        return [];
+      }
+    };
   // Function to call Groq API
     // FIXED: Function to call Groq API with full conversation history
   const callGroqAPI = async (chatHistory: Array<{role: string, content: string}>): Promise<string> => {
