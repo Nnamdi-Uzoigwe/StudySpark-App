@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, BookOpen, Video, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
-import { Book, Videos, Article, YouTubeAPIItem, WikipediaAPIPage, WikipediaArticle, GoogleBooksAPIItem } from '@/types/resources'
+import { Book, Videos, Article, YouTubeAPIItem, WikipediaArticle, GoogleBooksAPIItem } from '@/types/resources'
 import ReactMarkdown from 'react-markdown';
 
 interface Message {
@@ -17,6 +17,15 @@ interface Message {
     articles?: Article[]
   }
   shouldRecommend?: boolean
+}
+
+interface WikipediaSearchItem {
+  title: string;
+  snippet: string;
+  pageid: number;
+  size: number;
+  wordcount: number;
+  timestamp: string;
 }
 
 export default function ChatSection() {
@@ -103,7 +112,7 @@ export default function ChatSection() {
   
       const data = await response.json();
   
-      return (data.query.search || []).map((item: any): WikipediaArticle => ({
+      return (data.query.search || []).map((item: WikipediaSearchItem): WikipediaArticle => ({
         title: item.title,
         description: item.snippet.replace(/<[^>]+>/g, ''), // remove HTML tags
         url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title)}`

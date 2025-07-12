@@ -19,7 +19,6 @@ import {
   Videos,
   Article,
   YouTubeAPIItem,
-  WikipediaAPIPage,
   WikipediaArticle,
   GoogleBooksAPIItem,
 } from "@/types/resources";
@@ -37,6 +36,16 @@ interface Message {
   };
   shouldRecommend?: boolean;
 }
+
+interface WikipediaSearchItem {
+  title: string;
+  snippet: string;
+  pageid: number;
+  size: number;
+  wordcount: number;
+  timestamp: string;
+}
+
 
 export default function ChatSection() {
   const [messages, setMessages] = useState<Message[]>([
@@ -133,7 +142,7 @@ export default function ChatSection() {
     
         const data = await response.json();
     
-        return (data.query.search || []).map((item: any): WikipediaArticle => ({
+        return (data.query.search || []).map((item: WikipediaSearchItem): WikipediaArticle => ({
           title: item.title,
           description: item.snippet.replace(/<[^>]+>/g, ''),
           url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title)}`
