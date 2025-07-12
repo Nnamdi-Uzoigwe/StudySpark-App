@@ -380,7 +380,7 @@ export default function RecommendPage() {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-lg font-semibold text-gray-900 group-hover:text-[#398378] cursor-pointer transition-colors mb-2 line-clamp-2">
-             <a href={book.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+             <a href={book.url} target="_blank" rel="noopener noreferrer" className="underline">
               {book.title}
             </a>
           </h3>
@@ -407,7 +407,7 @@ export default function RecommendPage() {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-2 line-clamp-2">
-            <a href={video.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+            <a href={video.url} target="_blank" rel="noopener noreferrer" className="underline">
               {video.title}
             </a>
           </h3>
@@ -434,7 +434,7 @@ export default function RecommendPage() {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition-colors mb-2 line-clamp-2">
-            <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+            <a href={article.url} target="_blank" rel="noopener noreferrer" className="underline">
               {article.title}
             </a>
           </h3>
