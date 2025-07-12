@@ -4,7 +4,7 @@ export interface Book {
   thumbnail?: string;
   previewLink?: string;
   infoLink?: string;
-  url: String;
+  url: string;
 }
 
 interface GoogleBookItem {
