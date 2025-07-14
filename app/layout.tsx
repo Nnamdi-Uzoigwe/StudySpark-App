@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
-// import ClientLayout from "../components/ClientLayout";
+import ClientLayout from "../components/ClientLayout";
 import { ToastProvider } from "@/components/ToastProvider";
 
 const jost = Jost({
@@ -29,10 +29,10 @@ export default function RootLayout({
       <body
         className={`${jost.className} bg-[#202222] antialiased`}
       >
-      {/* <ClientLayout> */}
+      <ClientLayout>
         {children}
         <ToastProvider />
-      {/* </ClientLayout> */}
+      </ClientLayout>
       </body>
     </html>
   );
