@@ -1,7 +1,5 @@
 // models/Profile.ts
 import mongoose, { Document, Schema } from 'mongoose';
-
-// TypeScript interface for Profile
 export interface IProfile extends Document {
   userId: string;
   fullName: string;
@@ -14,7 +12,6 @@ export interface IProfile extends Document {
   updatedAt: Date;
 }
 
-// Education levels enum
 export enum EducationLevel {
   ELEMENTARY = 'Elementary School',
   MIDDLE = 'Middle School',
@@ -25,7 +22,6 @@ export enum EducationLevel {
   PROFESSIONAL = 'Professional'
 }
 
-// Study time options enum
 export enum StudyTime {
   EARLY_MORNING = 'Early Morning (5-8 AM)',
   MORNING = 'Morning (8-12 PM)',
@@ -36,7 +32,6 @@ export enum StudyTime {
   FLEXIBLE = 'Flexible'
 }
 
-// Profile Schema
 const ProfileSchema: Schema<IProfile> = new Schema({
   userId: {
     type: String,
@@ -89,13 +84,11 @@ const ProfileSchema: Schema<IProfile> = new Schema({
   },
 });
 
-// Update the updatedAt field before saving
 ProfileSchema.pre<IProfile>('save', function(next) {
   this.updatedAt = new Date();
   next();
 });
 
-// Create or get the Profile model
 const Profile = mongoose.models.Profile || mongoose.model<IProfile>('Profile', ProfileSchema);
 
 export default Profile;

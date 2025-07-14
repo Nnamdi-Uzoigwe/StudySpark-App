@@ -147,7 +147,7 @@ export default function Login() {
               disabled={isLoading}
               className="cursor-pointer w-full p-3 bg-[#398378] text-white rounded-lg hover:bg-[#376059] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Signing in...' : 'Login'}
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
 
             <p className='text-center'>Don&apos;t have an account? <Link href="/auth/register" className='text-[#398378]'>Register here</Link></p>

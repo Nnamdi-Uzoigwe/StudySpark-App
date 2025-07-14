@@ -9,12 +9,13 @@ import Testimonials from "@/sections/Testimonials";
 export default function Home() {
   return (
     <div className="bg-[#202222]">
-         <HomeHero />
+         {/* <HomeHero />
          <HowItWorks />
          <KeyFeatures />
          <Testimonials />
          <Faq />
-         <Subscribe />
+         <Subscribe /> */}
+         <h2 className="text-white">pay up</h2>
     </div>
   );
 }

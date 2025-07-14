@@ -28,5 +28,4 @@ const ChatSchema = new Schema<IChat>(
   }
 );
 
-// Prevent model overwrite in dev
 export default models.Chat || model<IChat>("Chat", ChatSchema);
