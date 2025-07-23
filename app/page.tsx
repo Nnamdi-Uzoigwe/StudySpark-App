@@ -14,7 +14,6 @@ export default function Home() {
          <Testimonials />
          <Faq />
          <Subscribe />
-         <h2 className="text-white">pay up</h2>
     </div>
   );
 }
