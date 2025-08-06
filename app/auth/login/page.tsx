@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function Login() {
   const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null);
@@ -14,6 +15,13 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const [ isClosed, setIsClosed ] = useState(false)
+
+  console.log("password", password)
+
+  function changeStatus() {
+    setIsClosed(!isClosed)
+  }
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -130,10 +138,10 @@ export default function Login() {
                 disabled={isLoading}
               />
             </div>
-            <div>
+            <div className='relative'>
               <label className="block text-sm font-medium mb-1">Password</label>
               <input
-                type="password"
+                type={isClosed ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border rounded-lg"
@@ -141,6 +149,9 @@ export default function Login() {
                 required
                 disabled={isLoading}
               />
+              <span onClick={changeStatus} className='cursor-pointer absolute right-4 top-9'>
+                {isClosed ? <Eye size={20} /> : <EyeOff size={20} />}
+              </span>
             </div>
             <button
               type="submit"

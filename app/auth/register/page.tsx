@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function Register() {
   const router = useRouter()
@@ -12,6 +13,11 @@ export default function Register() {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [ isClosed, setIsClosed ] = useState(false)
+
+  function changeStatus() {
+    setIsClosed(!isClosed)
+  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -76,16 +82,19 @@ export default function Register() {
                 required
               />
             </div>
-            <div>
+            <div className='relative'>
               <label className="block text-sm font-medium mb-1">Password</label>
               <input
-                type="password"
+                type={isClosed ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border rounded-lg"
                 placeholder='Your password...'
                 required
               />
+               <span onClick={changeStatus} className='cursor-pointer absolute right-4 top-9'>
+                {isClosed ? <Eye size={20} /> : <EyeOff size={20} />}
+              </span>
             </div>
             <div className='flex items-center gap-2'>
                 <input type="checkbox" />
