@@ -100,7 +100,7 @@ export default function Login() {
 
           <h1 className="text-2xl font-bold mb-6 text-center text-[#389378]">Login</h1>
 
-          {/* Social Providers */}
+          {/* Social Providers
           <div className="space-y-3">
             {Object.values(providers).map((provider) => {
               if (provider.id === 'credentials') return null
@@ -120,7 +120,7 @@ export default function Login() {
                 </button>
               )
             })}
-          </div>
+          </div> */}
 
           <div className="my-6 text-center text-gray-500">or</div>
 
