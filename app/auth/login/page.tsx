@@ -2,7 +2,7 @@
 
 import { signIn, getProviders } from 'next-auth/react'
 import { useState, useEffect } from 'react'
-import type { ClientSafeProvider } from 'next-auth/react'
+// import type { ClientSafeProvider } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 import { Eye, EyeOff } from 'lucide-react'
 
 export default function Login() {
-  const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null);
+  // const [providers, setProviders] = useState<Record<string, ClientSafeProvider> | null>(null);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -68,26 +68,7 @@ export default function Login() {
     }
   }
 
-  const handleSocialSignIn = async (providerId: string) => {
-    try {
-      await signIn(providerId, {
-        callbackUrl: '/dashboard'
-      })
-    } catch (error) {
-      toast.error("Social login error", {
-        position: "top-center",
-        autoClose: 2000
-      })
-      console.error('Social login error:', error)
-    }
-  }
 
-  if (!providers) return <div>Loading...</div>
-
-  const providerLogos: Record<string, string> = {
-    google: '/google.png',
-    facebook: '/facebook.png',
-  }
 
   return (
     <div className='h-screen grid grid-cols-1 lg:grid-cols-2'>
@@ -99,28 +80,6 @@ export default function Login() {
         <div className="px-6 lg:px-30 py-15 bg-white">
 
           <h1 className="text-2xl font-bold mb-6 text-center text-[#389378]">Login</h1>
-
-          {/* Social Providers
-          <div className="space-y-3">
-            {Object.values(providers).map((provider) => {
-              if (provider.id === 'credentials') return null
-
-              const logo = providerLogos[provider.id] || null
-              
-              return (
-                <button
-                  key={provider.name}
-                  onClick={() => handleSocialSignIn(provider.id)}
-                  className="w-full p-3 border rounded-lg hover:bg-gray-50 flex items-center justify-center gap-2"
-                >
-                  {logo && (
-                    <Image src={logo} alt={`${provider.name} logo`} height={20} width={20} />
-                  )}
-                  Continue with {provider.name}
-                </button>
-              )
-            })}
-          </div> */}
 
           <div className="my-6 text-center text-gray-500">or</div>
 
