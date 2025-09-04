@@ -81,7 +81,7 @@ export default function Login() {
 
           <h1 className="text-2xl font-bold mb-6 text-center text-[#389378]">Login</h1>
 
-          <div className="my-6 text-center text-gray-500">or</div>
+          <div className="my-6 text-center text-gray-500">Log in to your account</div>
 
           {/* Credentials Form */}
           <form onSubmit={handleCredentialsSignIn} className="space-y-4">
