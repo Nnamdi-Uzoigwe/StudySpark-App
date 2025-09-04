@@ -23,13 +23,13 @@ export default function Login() {
     setIsClosed(!isClosed)
   }
 
-  useEffect(() => {
-    const fetchProviders = async () => {
-      const res = await getProviders()
-      setProviders(res)
-    }
-    fetchProviders()
-  }, [])
+  // useEffect(() => {
+  //   const fetchProviders = async () => {
+  //     const res = await getProviders()
+  //     // setProviders(res)
+  //   }
+  //   fetchProviders()
+  // }, [])
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
