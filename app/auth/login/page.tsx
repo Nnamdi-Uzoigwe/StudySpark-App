@@ -1,7 +1,7 @@
 'use client'
 
-import { signIn, getProviders } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
 // import type { ClientSafeProvider } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
